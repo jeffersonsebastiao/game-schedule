@@ -1,5 +1,8 @@
 import { createApp } from "vue";
-import "./styles.css";
+import { primeVuePlugin } from "./plugins/prime-vue";
+
 import App from "./App.vue";
 
-createApp(App).mount("#app");
+import "./styles.scss";
+
+createApp(App).use(primeVuePlugin).mount("#app");

@@ -15,6 +15,7 @@ import Password from "primevue/password";
 import Tag from "primevue/tag";
 import Toast from "primevue/toast";
 import ToastService from "primevue/toastservice";
+import MegaMenu from "primevue/megamenu";
 import { Plugin } from "vue";
 
 export const primeVuePlugin: Plugin = {
@@ -42,6 +43,7 @@ export const primeVuePlugin: Plugin = {
 
     // Menu components
     app.component("PvMenu", Menu);
+    app.component("PvMegaMenu", MegaMenu);
 
     // Data components
     app.component("PvDataTable", DataTable);

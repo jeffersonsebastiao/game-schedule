@@ -38,8 +38,8 @@
         "fullscreen": false,
         "resizable": true,
         "title": "game_schedule",
-        "width": 800,
-        "height": 600
+        "width": 1080,
+        "height": 720
       }
     ]
   }

@@ -1,11 +1,8 @@
-#[tauri::command]
-fn my_custom_command() {
-    println!("I was invoked from JS!");
-}
+mod manage_files;
 
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![my_custom_command])
+        .invoke_handler(tauri::generate_handler![manage_files::list_all_saves])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

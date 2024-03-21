@@ -28,7 +28,6 @@ const saveName = ref<string>("");
 const saves = ref<{ name: string }[]>();
 </script>
 <template>
-  <button @click="() => showWarningDeleteSaveMenu()">Click</button>
   <div class="flex justify-content-center mt-6">
     <div class="w-6 gap-3 flex flex-column">
       <div class="flex w-full gap-3">

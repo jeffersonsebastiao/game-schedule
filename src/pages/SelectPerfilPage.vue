@@ -1,18 +1,31 @@
 <script setup lang="ts">
-import { invoke } from "@tauri-apps/api";
+import {
+  readDir,
+  createDir,
+  exists,
+  BaseDirectory,
+  removeFile,
+  FileEntry,
+} from "@tauri-apps/api/fs";
 import { onBeforeMount, ref } from "vue";
 
 const loadSavesFolder = async () => {
-  const savesList = await invoke<string[]>("list_all_saves");
-  saves.value = savesList.map((value) => ({ name: value }));
+  const savesList = await readDir("game_schedule", {
+    dir: BaseDirectory.Document,
+  });
+  saves.value = savesList.filter((item) => item);
 };
 
 onBeforeMount(async () => {
+  if (!(await exists("game_schedule", { dir: BaseDirectory.Document }))) {
+    await createDir("game_schedule", { dir: BaseDirectory.Document });
+  }
+
   await loadSavesFolder();
 });
 
 const deleteSave = async (file: string) => {
-  await invoke("delete_save", { file });
+  await removeFile(`game_schedule\\${file}`, { dir: BaseDirectory.Document });
   await loadSavesFolder();
   warningDeleteSaveMenu.value = !warningDeleteSaveMenu.value;
 };
@@ -25,7 +38,7 @@ const showWarningDeleteSaveMenu = () => {
 
 const saveName = ref<string>("");
 
-const saves = ref<{ name: string }[]>();
+const saves = ref<FileEntry[]>();
 </script>
 <template>
   <div class="flex justify-content-center mt-6">

@@ -1,6 +1,12 @@
 import { createRouter, createWebHistory } from "vue-router";
+import SelectPerfilPage from "../pages/SelectPerfilPage.vue";
 
 export const router = createRouter({
   history: createWebHistory(),
-  routes: [],
+  routes: [
+    {
+      path: "/",
+      component: SelectPerfilPage,
+    },
+  ],
 });

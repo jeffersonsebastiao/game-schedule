@@ -2,13 +2,13 @@ import SQLite from "tauri-plugin-sqlite-api";
 import { documentDir, sep } from "@tauri-apps/api/path";
 
 export class Database {
-  private db: any;
+  private _db: SQLite | undefined;
 
   async createNewFile(fileName: string) {
-    this.db = await SQLite.open(
+    this._db = await SQLite.open(
       `${(await documentDir()) + sep}game_schedule${sep + fileName}.db`
     );
-    await this.db.execute(`
+    await this._db.execute(`
     CREATE TABLE "type" (
       "id"	INTEGER,
       "name"	TEXT NOT NULL,
@@ -51,16 +51,20 @@ export class Database {
   }
 
   async open(fileName: string) {
-    this.db = await SQLite.open(
+    this._db = await SQLite.open(
       `${(await documentDir()) + sep}game_schedule${sep + fileName}.db`
     );
   }
 
   async close() {
-    await this.db.close();
+    if (this._db) {
+      await this._db.close();
+    }
   }
 
   async query(query: string, params?: any[]) {
-    await this.db.execute(query, params);
+    if (this._db) {
+      await this._db.execute(query, params);
+    }
   }
 }

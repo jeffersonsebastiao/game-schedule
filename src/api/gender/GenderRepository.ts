@@ -7,28 +7,28 @@ export class GenderRepository {
     private readonly select: Database["select"]
   ) {}
 
-  async create(data: Omit<IGender, "id">) {
+  async create(data: Omit<IGender, "id">): Promise<boolean> {
     return await this.query("INSERT INTO gender VALUES (?1, ?2)", [
       null,
       data.name,
     ]);
   }
 
-  async update(data: IGender) {
+  async update(data: IGender): Promise<boolean> {
     return await this.query("UPDATE gender SET name = ?1 WHERE id = ?2", [
       data.name,
       data.id,
     ]);
   }
 
-  async getOne(data: Omit<IGender, "name">) {
+  async getOne(data: Omit<IGender, "name">): Promise<IGender[]> {
     return await this.select<Array<IGender>>(
       "SELECT * FROM gender WHERE id = ?",
       [data.id]
     );
   }
 
-  async getAll() {
+  async getAll(): Promise<IGender[]> {
     return await this.select<Array<IGender>>("SELECT * FROM gender");
   }
 

@@ -2,7 +2,7 @@ import SQLite from "tauri-plugin-sqlite-api";
 import { documentDir, sep } from "@tauri-apps/api/path";
 
 export class Database {
-  private _db: SQLite | undefined;
+  private _db!: SQLite;
 
   async createNewFile(fileName: string) {
     this._db = await SQLite.open(
@@ -57,14 +57,10 @@ export class Database {
   }
 
   async close() {
-    if (this._db) {
-      await this._db.close();
-    }
+    return await this._db.close();
   }
 
   async query(query: string, params?: any[]) {
-    if (this._db) {
-      await this._db.execute(query, params);
-    }
+    return await this._db.execute(query, params);
   }
 }

@@ -2,7 +2,10 @@ import { Database } from "../database";
 import { IConsole } from "./interfaces";
 
 export class ConsoleRepository {
-  constructor(private readonly query: Database["query"]) {}
+  constructor(
+    private readonly query: Database["query"],
+    private readonly select: Database["select"]
+  ) {}
 
   async create(data: Omit<IConsole, "id">) {
     return await this.query("INSERT INTO consoles VALUES (?1, ?2)", [
@@ -19,14 +22,17 @@ export class ConsoleRepository {
   }
 
   async getOne(data: Omit<IConsole, "name">) {
-    return await this.query("SELECT * FROM consoles WHERE id = ?", [data.id]);
+    return await this.select<Array<IConsole>>(
+      "SELECT * FROM consoles WHERE id = ?",
+      [data.id]
+    );
   }
 
   async getAll() {
-    return await this.query("SELECT * FROM consoles");
+    return await this.select<Array<IConsole>>("SELECT * FROM consoles");
   }
 
-  async delete(data: Omit<IConsole, "name">) {
+  async delete(data: Omit<IConsole, "name">): Promise<boolean> {
     return await this.query("DELETE FROM consoles WHERE id = ?", [data.id]);
   }
 }

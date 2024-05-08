@@ -56,11 +56,15 @@ export class Database {
     );
   }
 
-  async close() {
-    return await this._db.close();
+  async query(query: string, params?: any) {
+    return await this._db.execute(query, params);
   }
 
-  async query(query: string, params?: any[]) {
-    return await this._db.execute(query, params);
+  async select<T>(query: string, params?: any[]) {
+    return await this._db.select<T>(query, params);
+  }
+
+  async close() {
+    return await this._db.close();
   }
 }

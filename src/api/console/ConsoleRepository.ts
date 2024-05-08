@@ -15,7 +15,7 @@ export class ConsoleRepository {
   }
 
   async update(data: IConsole) {
-    return await this.query("UPDATE consoles SET name = ?1 WHERE ID = ?2", [
+    return await this.query("UPDATE consoles SET name = ?1 WHERE id = ?2", [
       data.name,
       data.id,
     ]);

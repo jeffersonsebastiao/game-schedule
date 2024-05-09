@@ -1,6 +1,7 @@
 import { ConsoleRepository } from "./console/ConsoleRepository";
 import { Database } from "./database";
 import { GameConsoleRepository } from "./game-console/GameConsoleRepository";
+import { GamesRepository } from "./games/GamesRepository";
 import { GenderRepository } from "./gender/GenderRepository";
 import { TypeRepository } from "./type/TypeRepository";
 
@@ -18,6 +19,10 @@ export const typeRepository = new TypeRepository(
   database.select.bind(database)
 );
 export const gameConsoleRepository = new GameConsoleRepository(
+  database.query.bind(database),
+  database.select.bind(database)
+);
+export const gamesRepository = new GamesRepository(
   database.query.bind(database),
   database.select.bind(database)
 );

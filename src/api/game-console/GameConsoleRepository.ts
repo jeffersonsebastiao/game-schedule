@@ -17,7 +17,7 @@ export class GameConsoleRepository {
 
   async update(data: IGameConsole): Promise<boolean> {
     return await this.query(
-      "UPDATE games_consoles SET game_id = ?1 AND console_id = ?2  WHERE id = ?3",
+      "UPDATE games_consoles SET game_id = ?1, console_id = ?2  WHERE id = ?3",
       [data.gameId, data.consoleId, data.id]
     );
   }

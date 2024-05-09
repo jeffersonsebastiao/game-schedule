@@ -22,9 +22,7 @@ export class GameConsoleRepository {
     );
   }
 
-  async getOne(
-    data: Omit<IGameConsole, "gameId" | "consoleId">
-  ): Promise<IGameConsole[]> {
+  async getOne(data: Pick<IGameConsole, "id">): Promise<IGameConsole[]> {
     return await this.select<Array<IGameConsole>>(
       "SELECT * FROM games_consoles WHERE id = ?",
       [data.id]
@@ -37,9 +35,7 @@ export class GameConsoleRepository {
     );
   }
 
-  async delete(
-    data: Omit<IGameConsole, "gameId" | "consoleId">
-  ): Promise<boolean> {
+  async delete(data: Pick<IGameConsole, "id">): Promise<boolean> {
     return await this.query("DELETE FROM games_consoles WHERE id = ?", [
       data.id,
     ]);

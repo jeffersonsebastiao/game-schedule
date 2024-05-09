@@ -20,6 +20,9 @@
         "removeFile": true,
         "scope": ["$DOCUMENT/**"]
       },
+      "path": {
+        "all": true
+      },
       "shell": {
         "all": false,
         "open": true

@@ -5,6 +5,12 @@ import { GamesRepository } from "./games/GamesRepository";
 import { GenderRepository } from "./gender/GenderRepository";
 import { TypeRepository } from "./type/TypeRepository";
 
+export * from "./console/interfaces";
+export * from "./game-console/interfaces";
+export * from "./games/interfaces";
+export * from "./gender/interfaces";
+export * from "./type/interfaces";
+
 export const database = new Database();
 export const consoleRepository = new ConsoleRepository(
   database.query.bind(database),

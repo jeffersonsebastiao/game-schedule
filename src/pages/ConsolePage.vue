@@ -62,7 +62,7 @@ const a = (a: any) => {
   </div>
   <PvDialog v-model:visible="warningDeleteSaveMenu" modal header="Atenção!">
     <div class="flex flex-column gap-3 align-items-end">
-      <span> Você realmente deseja deletar esse perfil? </span>
+      <span> Você realmente deseja deletar esse console? </span>
       <div class="gap-2 flex">
         <PvButton label="Sim" @click="() => deleteSave()" />
         <PvButton label="Não" @click="() => showWarningDeleteConsoleMenu()" />

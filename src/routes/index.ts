@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
 import SelectPerfilPage from "../pages/SelectPerfilPage.vue";
-import MainPage from "../pages/MainPage.vue";
+import ConsolePage from "../pages/ConsolePage.vue";
+import MainLayout from "../layout/MainLayout.vue";
+import TypePage from "../pages/TypePage.vue";
 
 export const router = createRouter({
   history: createWebHistory(),
@@ -10,8 +12,18 @@ export const router = createRouter({
       component: SelectPerfilPage,
     },
     {
-      path: "/console",
-      component: MainPage,
+      path: "/",
+      component: MainLayout,
+      children: [
+        {
+          path: "console",
+          component: ConsolePage,
+        },
+        {
+          path: "type",
+          component: TypePage,
+        },
+      ],
     },
   ],
 });

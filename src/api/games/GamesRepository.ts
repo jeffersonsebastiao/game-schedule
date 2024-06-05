@@ -27,18 +27,20 @@ export class GamesRepository {
 
   async update(data: IGames): Promise<boolean> {
     return await this.query(
-      `
-      UPDATE games SET 
-      name = ?1, 
-      gender_id = ?2, 
-      type_id = ?3, 
-      note = ?4, 
-      difficulty = ?5, 
-      finalized = ?6, 
-      time_finalized = ?7, 
-      finalize_soon = ?8, 
-      finalize_condition = ?9  
-      WHERE id = ?10
+      `UPDATE 
+        games 
+      SET 
+        name = ?1, 
+        gender_id = ?2, 
+        type_id = ?3, 
+        note = ?4, 
+        difficulty = ?5, 
+        finalized = ?6, 
+        time_finalized = ?7, 
+        finalize_soon = ?8, 
+        finalize_condition = ?9  
+      WHERE 
+        id = ?10
       `,
       [
         data.name,
@@ -63,7 +65,25 @@ export class GamesRepository {
   }
 
   async getAll(): Promise<IGames[]> {
-    return await this.select<Array<IGames>>("SELECT * FROM games");
+    return await this.select<Array<IGames>>(
+      `SELECT
+        games.id,
+        games.name,
+        gender.name AS gender,
+        type.name AS type,
+        note,
+        difficulty,
+        finalized,
+        time_finalized,
+        finalize_soon,
+        finalize_condition
+      FROM
+        games
+      INNER JOIN
+        gender ON gender.id = games.gender_id
+      INNER JOIN
+        type ON type.id = games.type_id`
+    );
   }
 
   async delete(data: Pick<IGames, "id">): Promise<boolean> {

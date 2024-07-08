@@ -16,6 +16,7 @@ import Tag from "primevue/tag";
 import Toast from "primevue/toast";
 import ToastService from "primevue/toastservice";
 import MegaMenu from "primevue/megamenu";
+import Dock from "primevue/dock";
 import { Plugin } from "vue";
 
 export const primeVuePlugin: Plugin = {
@@ -54,5 +55,6 @@ export const primeVuePlugin: Plugin = {
 
     // Other
     app.component("PvTag", Tag);
+    app.component("PvDock", Dock);
   },
 };

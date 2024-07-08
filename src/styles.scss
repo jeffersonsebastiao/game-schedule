@@ -5,3 +5,13 @@
 .title-page {
   font-family: fantasy;
 }
+html {
+  background: rgb(10, 0, 184);
+  background: linear-gradient(
+    90deg,
+    rgba(10, 0, 184, 1) 0%,
+    rgba(22, 15, 192, 1) 0%,
+    rgba(53, 53, 212, 1) 0%,
+    rgba(0, 164, 255, 1) 100%
+  );
+}

@@ -23,7 +23,11 @@ onBeforeMount(async () => {
   await loadContentPage();
 });
 
-interface INewGame extends Omit<IGames, "id" | "genderId" | "typeId"> {
+interface INewGame
+  extends Omit<
+    IGames,
+    "id" | "genderId" | "typeId" | "note" | "difficulty" | "timeFinalized"
+  > {
   type: {
     id: number;
     name: string;
@@ -32,6 +36,9 @@ interface INewGame extends Omit<IGames, "id" | "genderId" | "typeId"> {
     id: number;
     name: string;
   };
+  note: null | number;
+  difficulty: null | number;
+  timeFinalized: null | number;
 }
 
 const newGame = ref<INewGame>({
@@ -44,10 +51,10 @@ const newGame = ref<INewGame>({
     id: 0,
     name: "",
   },
-  note: 0,
-  difficulty: 0,
+  note: null,
+  difficulty: null,
   finalized: false,
-  timeFinalized: 0,
+  timeFinalized: null,
   finalizeSoon: true,
   finalizeCondition: "",
 });
@@ -65,10 +72,10 @@ const createGame = async () => {
     name: newGame.value.name,
     genderId: newGame.value.gender.id,
     typeId: newGame.value.type.id,
-    note: newGame.value.note,
-    difficulty: newGame.value.difficulty,
+    note: newGame.value.note ?? 0,
+    difficulty: newGame.value.difficulty ?? 0,
     finalized: newGame.value.finalized,
-    timeFinalized: newGame.value.timeFinalized,
+    timeFinalized: newGame.value.timeFinalized ?? 0,
     finalizeSoon: newGame.value.finalizeSoon,
     finalizeCondition: newGame.value.finalizeCondition,
   });
@@ -80,41 +87,77 @@ const deleteGame = async () => {
   gamesList.value = await gamesRepository.getAll();
   showWarningDeleteConsoleMenu();
 };
+
+const showNewGameModal = ref(false);
 </script>
 <template>
   <div class="flex justify-content-center mt-6">
-    <div class="w-6 gap-3 flex flex-column">
-      <div class="flex w-full gap-3 flex-column">
-        <PvInputText class="flex-1" v-model="newGame.name" placeholder="Nome" />
-        <PvDropdown
-          v-model="newGame.gender"
-          :options="genderList"
-          option-label="name"
-          placeholder="Selecione um gênero"
-        />
-        <PvDropdown
-          v-model="newGame.type"
-          :options="typeList"
-          option-label="name"
-          placeholder="Selecione um tipo"
-        />
-        <PvInputNumber v-model="newGame.note" />
-        <label>Nota</label>
-        <PvInputNumber v-model="newGame.difficulty" />
-        <label>Dificuldade</label>
-        <PvCheckbox v-model="newGame.finalized" :binary="true" />
-        <label>Terminado</label>
-        <PvInputNumber v-model="newGame.timeFinalized" />
-        <label>Tempo levado para terminar</label>
-        <PvCheckbox v-model="newGame.finalizeSoon" :binary="true" />
-        <label>Pretender terminar logo</label>
-        <PvInputText
-          v-model="newGame.finalizeCondition"
-          placeholder="Condição para terminar"
-        />
-
-        <PvButton label="Novo Jogo" @click="() => createGame()" />
+    <div class="gap-3 flex flex-column">
+      <div class="flex justify-content-between">
+        <h1 class="title-page">Lista de Jogos</h1>
+        <div class="mt-4">
+          <PvButton
+            label="Novo"
+            @click="() => (showNewGameModal = !showNewGameModal)"
+          />
+        </div>
       </div>
+      <PvCard v-if="showNewGameModal">
+        <template #content>
+          <div class="flex justify-content-between mb-1">
+            <PvInputText v-model="newGame.name" placeholder="Nome" />
+            <PvDropdown
+              v-model="newGame.gender"
+              :options="genderList"
+              option-label="name"
+              placeholder="Selecione um gênero"
+            />
+
+            <PvDropdown
+              v-model="newGame.type"
+              :options="typeList"
+              option-label="name"
+              placeholder="Selecione um tipo"
+            />
+          </div>
+          <div class="flex justify-content-between mb-1">
+            <PvInputText
+              v-model="newGame.note"
+              type="number"
+              placeholder="Nota"
+            />
+
+            <PvInputText
+              v-model="newGame.difficulty"
+              type="number"
+              placeholder="Dificuldade"
+            />
+
+            <div class="p-2">
+              <span>Terminado: </span>
+              <PvInputSwitch v-model="newGame.finalized" />
+            </div>
+
+            <PvInputText
+              v-model="newGame.timeFinalized"
+              type="number"
+              placeholder="Tempo"
+            />
+          </div>
+
+          <div class="flex gap-2">
+            <div class="p-2">
+              <span>Pretender terminar logo: </span>
+              <PvInputSwitch v-model="newGame.finalizeSoon" />
+            </div>
+            <PvInputText
+              v-model="newGame.finalizeCondition"
+              placeholder="Condição para terminar"
+            />
+          </div>
+          <PvButton label="Novo Jogo" @click="() => createGame()" />
+        </template>
+      </PvCard>
       <PvDataTable :value="gamesList" class="w-full" size="small">
         <PvColumn field="name" header="Nome" />
         <PvColumn field="gender" header="Gênero" />

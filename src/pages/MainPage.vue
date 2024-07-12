@@ -103,8 +103,8 @@ const showNewGameModal = ref(false);
         </div>
       </div>
       <PvCard v-if="showNewGameModal">
-        <template #content>
-          <div class="flex justify-content-between mb-1">
+        <template #content class="flex align-items-end">
+          <div class="flex justify-content-between mb-1 gap-2">
             <PvInputText v-model="newGame.name" placeholder="Nome" />
             <PvDropdown
               v-model="newGame.gender"
@@ -119,8 +119,27 @@ const showNewGameModal = ref(false);
               option-label="name"
               placeholder="Selecione um tipo"
             />
+
+            <PvInputText
+              v-model="newGame.finalizeCondition"
+              placeholder="Condição para terminar"
+            />
+
+            <div class="p-2">
+              <span>Terminado: </span>
+              <PvInputSwitch v-model="newGame.finalized" />
+            </div>
           </div>
-          <div class="flex justify-content-between mb-1">
+
+          <div v-if="!newGame.finalized" class="p-2">
+            <span>Pretender terminar logo: </span>
+            <PvInputSwitch v-model="newGame.finalizeSoon" />
+          </div>
+
+          <div
+            v-if="newGame.finalized"
+            class="flex justify-content-between mb-1"
+          >
             <PvInputText
               v-model="newGame.note"
               type="number"
@@ -133,11 +152,6 @@ const showNewGameModal = ref(false);
               placeholder="Dificuldade"
             />
 
-            <div class="p-2">
-              <span>Terminado: </span>
-              <PvInputSwitch v-model="newGame.finalized" />
-            </div>
-
             <PvInputText
               v-model="newGame.timeFinalized"
               type="number"
@@ -145,16 +159,6 @@ const showNewGameModal = ref(false);
             />
           </div>
 
-          <div class="flex gap-2">
-            <div class="p-2">
-              <span>Pretender terminar logo: </span>
-              <PvInputSwitch v-model="newGame.finalizeSoon" />
-            </div>
-            <PvInputText
-              v-model="newGame.finalizeCondition"
-              placeholder="Condição para terminar"
-            />
-          </div>
           <PvButton label="Novo Jogo" @click="() => createGame()" />
         </template>
       </PvCard>
